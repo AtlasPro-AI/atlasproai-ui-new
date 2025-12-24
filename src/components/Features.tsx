@@ -139,10 +139,10 @@ function FeatureCard({ feature, index, isInView }: { feature: typeof features[0]
         ease: "easeOut"
       }}
       className="glass rounded-card p-8 hover:shadow-glow transition-all duration-500 group cursor-pointer relative overflow-hidden"
-      whileHover={{ y: -12, scale: 1.03 }}
+      whileHover={{ y: -10, scale: 1.02 }}
     >
       {/* Hover gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-glow/0 to-brand-secondary/0 group-hover:from-brand-glow/5 group-hover:to-brand-secondary/5 transition-all duration-500 rounded-card"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-glow/0 to-brand-secondary/0 group-hover:from-brand-glow/10 group-hover:to-brand-secondary/10 transition-all duration-500 rounded-card"></div>
       
       <div className="relative z-10">
         <motion.div 

@@ -37,7 +37,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-3xl md:text-5xl font-heading font-bold mb-8 leading-tight"
+              className="text-3xl md:text-5xl font-heading font-bold mb-8 leading-tight drop-shadow-lg"
             >
               <span className="gradient-text">AI Agents</span> that solve your{' '}
               location-based tasks
@@ -47,7 +47,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-xl text-brand-text mb-12 leading-relaxed"
+              className="text-xl text-brand-text mb-12 leading-relaxed max-w-2xl"
             >
               Tell our AI Agents what you need—analyze neighborhoods, find investment opportunities, 
               plan routes, identify properties—and watch them work. Powered by MCP tools that make 

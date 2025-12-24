@@ -145,7 +145,7 @@ function UseCaseCard({ useCase, index, isInView }: { useCase: typeof useCases[0]
         ease: "easeOut"
       }}
       className="glass rounded-card-lg overflow-hidden hover:shadow-glow transition-all duration-500 group cursor-pointer relative"
-      whileHover={{ y: -12, scale: 1.03 }}
+      whileHover={{ y: -8, scale: 1.02 }}
     >
       {/* Gradient header with animation */}
       <motion.div 

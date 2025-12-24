@@ -73,7 +73,7 @@ export default function UnifySection() {
           className="text-center mb-16"
         >
           <motion.h2 
-            className="text-4xl md:text-5xl font-heading font-bold mb-6"
+            className="text-4xl md:text-5xl font-heading font-bold mb-6 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -81,7 +81,7 @@ export default function UnifySection() {
             What We Build
           </motion.h2>
           <motion.p 
-            className="text-xl text-brand-text max-w-3xl mx-auto"
+            className="text-xl text-brand-text max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
