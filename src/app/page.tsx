@@ -1,7 +1,8 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
+import ProblemSection from '@/components/ProblemSection'
 import UnifySection from '@/components/UnifySection'
-import Features from '@/components/Features'
+import CapabilitiesSection from '@/components/CapabilitiesSection'
 import Pipeline from '@/components/Pipeline'
 import UseCases from '@/components/UseCases'
 import Security from '@/components/Security'
@@ -14,8 +15,9 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <ProblemSection />
       <UnifySection />
-      <Features />
+      <CapabilitiesSection />
       <Pipeline />
       <UseCases />
       <Security />

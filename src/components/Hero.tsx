@@ -39,8 +39,7 @@ export default function Hero() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-3xl md:text-5xl font-heading font-bold mb-8 leading-tight drop-shadow-lg"
             >
-              <span className="gradient-text">AI Agents</span> that solve your{' '}
-              location-based tasks
+              The <span className="gradient-text">spatial intelligence layer</span> that makes the physical world machine-readable
             </motion.h2>
 
             <motion.p
@@ -49,9 +48,9 @@ export default function Hero() {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="text-xl text-brand-text mb-12 leading-relaxed max-w-2xl"
             >
-              Tell our AI Agents what you need—analyze neighborhoods, find investment opportunities, 
-              plan routes, identify properties—and watch them work. Powered by MCP tools that make 
-              AI spatially intelligent.
+              Transforms maps, satellite imagery, LiDAR, and sensor data into real-time monitoring, 
+              automated analysis, and operational simulations that enable enterprises and governments 
+              to operate safer, faster, and smarter.
             </motion.p>
 
             <motion.div
@@ -61,10 +60,10 @@ export default function Hero() {
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <Link href="/contact" className="btn-primary">
-                Join Waitlist
+                Request a Demo
               </Link>
               <Link href="/use-cases" className="btn-secondary">
-                See Use Cases
+                Explore Use Cases
               </Link>
             </motion.div>
           </motion.div>

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Logo from './Logo'
 
 export default function Footer() {
   return (
@@ -9,15 +10,10 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-brand-secondary to-brand-glow rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">A</span>
-              </div>
-              <span className="text-white font-heading font-bold text-xl">
-                AtlasPro <span className="text-brand-secondary">AI</span>
-              </span>
+            <Link href="/" className="mb-4 inline-block">
+              <Logo />
             </Link>
-            <p className="text-brand-text text-sm">
+            <p className="text-brand-text text-sm mt-4">
               The spatial intelligence layer that makes the physical world machine-readable.
             </p>
           </div>

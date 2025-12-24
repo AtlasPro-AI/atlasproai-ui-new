@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import Logo from './Logo'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,60 +24,60 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'glass shadow-2xl backdrop-blur-xl border-b border-brand-text/10' : 'bg-transparent'
+        isScrolled 
+          ? 'bg-brand-main/80 backdrop-blur-xl border-b border-brand-text/15 shadow-lg' 
+          : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <motion.div 
-              className="relative w-12 h-12"
-              whileHover={{ scale: 1.05, rotate: [0, -5, 5, 0] }}
-              transition={{ duration: 0.5 }}
-            >
-              {/* AtlasPro Logo - Circular background with A */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-secondary to-brand-glow rounded-full opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-7 h-7" fill="currentColor">
-                  <path d="M12 2L2 19h4l6-10 6 10h4L12 2z" className="text-white"/>
-                  <path d="M8 19h8l-2-3.5H10L8 19z" className="text-white opacity-80"/>
-                </svg>
-              </div>
-              {/* Subtle rotating ring on hover */}
-              <motion.div 
-                className="absolute inset-0 border-2 border-brand-glow rounded-full opacity-0 group-hover:opacity-50"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              />
-            </motion.div>
-            <motion.span 
-              className="text-white font-heading font-bold text-xl"
-              whileHover={{ x: 2 }}
-            >
-              AtlasPro <span className="text-brand-glow">AI</span>
-            </motion.span>
+          <Link href="/" className="group">
+            <Logo />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink href="/product">Product</NavLink>
+          <div className="hidden lg:flex items-center space-x-8">
+            {/* Product Dropdown */}
+            <DropdownMenu 
+              title="Product" 
+              active={activeDropdown === 'product'}
+              onToggle={() => setActiveDropdown(activeDropdown === 'product' ? null : 'product')}
+              items={[
+                { label: 'Overview', href: '/product' },
+                { label: 'Capabilities', href: '/product#capabilities' },
+                { label: 'MCP Tools', href: '/product#mcp' },
+                { label: 'Security', href: '/product#security' },
+              ]}
+            />
+
+            {/* Research Dropdown */}
+            <DropdownMenu 
+              title="Research" 
+              active={activeDropdown === 'research'}
+              onToggle={() => setActiveDropdown(activeDropdown === 'research' ? null : 'research')}
+              items={[
+                { label: 'Blog', href: '/blog' },
+                { label: 'Whitepapers', href: '/whitepapers' },
+              ]}
+            />
+
             <NavLink href="/use-cases">Use Cases</NavLink>
             <NavLink href="/about">About</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
+            
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/contact"
                 className="btn-primary text-sm px-6 py-3"
               >
-                Join Waitlist
+                Request Demo
               </Link>
             </motion.div>
           </div>
 
           {/* Mobile Menu Button */}
           <motion.button 
-            className="md:hidden text-brand-text"
+            className="lg:hidden text-brand-text"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
           >
@@ -87,27 +89,81 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <motion.div
-        initial={false}
-        animate={{ height: isMobileMenuOpen ? 'auto' : 0, opacity: isMobileMenuOpen ? 1 : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="md:hidden overflow-hidden glass"
-      >
-        <div className="px-4 py-6 space-y-4">
-          <MobileNavLink href="/product" onClick={() => setIsMobileMenuOpen(false)}>Product</MobileNavLink>
-          <MobileNavLink href="/use-cases" onClick={() => setIsMobileMenuOpen(false)}>Use Cases</MobileNavLink>
-          <MobileNavLink href="/about" onClick={() => setIsMobileMenuOpen(false)}>About</MobileNavLink>
-          <MobileNavLink href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</MobileNavLink>
-          <Link
-            href="/contact"
-            className="block btn-primary text-center"
-            onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden overflow-hidden bg-brand-main/95 backdrop-blur-xl border-b border-brand-text/15"
           >
-            Join Waitlist
-          </Link>
-        </div>
-      </motion.div>
+            <div className="px-4 py-6 space-y-4">
+              <MobileNavLink href="/product" onClick={() => setIsMobileMenuOpen(false)}>Product</MobileNavLink>
+              <MobileNavLink href="/use-cases" onClick={() => setIsMobileMenuOpen(false)}>Use Cases</MobileNavLink>
+              <MobileNavLink href="/about" onClick={() => setIsMobileMenuOpen(false)}>About</MobileNavLink>
+              <MobileNavLink href="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
+              <Link
+                href="/contact"
+                className="block btn-primary text-center mt-4"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Request Demo
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
+  )
+}
+
+function DropdownMenu({ 
+  title, 
+  items, 
+  active, 
+  onToggle 
+}: { 
+  title: string
+  items: { label: string; href: string }[]
+  active: boolean
+  onToggle: () => void
+}) {
+  return (
+    <div 
+      className="relative"
+      onMouseEnter={onToggle}
+      onMouseLeave={onToggle}
+    >
+      <button className="text-brand-text hover:text-white transition-colors duration-200 font-medium relative group flex items-center gap-1">
+        {title}
+        <svg className={`w-4 h-4 transition-transform duration-200 ${active ? 'rotate-180' : ''}`} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+          <path d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-full left-0 mt-2 w-48 bg-brand-main/95 backdrop-blur-xl border border-brand-text/15 rounded-card shadow-glow overflow-hidden"
+          >
+            {items.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="block px-4 py-3 text-brand-text hover:text-white hover:bg-brand-secondary/20 transition-all duration-200"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 

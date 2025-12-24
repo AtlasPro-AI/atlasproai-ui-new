@@ -20,26 +20,26 @@ export default function CTA() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-6xl font-heading font-bold mb-6 drop-shadow-lg">
-            Ready to make location-based tasks{' '}
-            <span className="gradient-text">effortless?</span>
+            Make the physical world{' '}
+            <span className="gradient-text">machine-readable</span>
           </h2>
 
           <p className="text-xl text-brand-text mb-12 leading-relaxed max-w-2xl mx-auto">
-            Join the waitlist to get early access to AI agents that understand location.
-            Be among the first to experience spatial intelligence.
+            Transform your spatial operations with AI-powered intelligence. 
+            Request a demo to see how AtlasPro AI can automate your workflows.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary text-lg">
-              Join Waitlist
+              Request a Demo
             </Link>
             <Link href="/product" className="btn-secondary text-lg">
-              Learn More
+              Explore Platform
             </Link>
           </div>
 
           <p className="mt-8 text-brand-text text-sm">
-            Early access coming soon
+            Trusted by enterprises and government agencies worldwide
           </p>
         </motion.div>
       </div>
