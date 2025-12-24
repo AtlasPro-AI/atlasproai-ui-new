@@ -18,7 +18,7 @@ A modern, high-conversion marketing website for AtlasPro AI, the spatial intelli
 - **Secondary**: `#4A9888` - Brand color
 - **Text**: `#B5D2CE` - Off-white green text
 - **Deep**: `#112836` - Deep background variant
-- **Glow**: `#6FE7D8` - Accent glow for CTAs and highlights
+- **Glow**: `#7FFFEB` - Accent glow for CTAs and highlights (green-only)
 - **Accent**: `#F2C572` - Warning/Highlight color
 
 ### Typography

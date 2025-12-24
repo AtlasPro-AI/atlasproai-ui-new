@@ -188,14 +188,14 @@ function GeospatialVisual() {
             {/* Water body - river running through city */}
             <motion.path
               d="M 0 280 Q 200 260, 400 280 Q 600 300, 800 280 L 800 350 Q 600 370, 400 350 Q 200 330, 0 350 Z"
-              fill="rgba(111, 231, 216, 0.12)"
-              stroke="rgba(111, 231, 216, 0.3)"
+              fill="rgba(127, 255, 235, 0.12)"
+              stroke="rgba(127, 255, 235, 0.3)"
               strokeWidth="1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             />
-            <text x="400" y="320" textAnchor="middle" fill="rgba(111, 231, 216, 0.5)" fontSize="12" fontFamily="Arial" fontStyle="italic">Atlas River</text>
+            <text x="400" y="320" textAnchor="middle" fill="rgba(127, 255, 235, 0.5)" fontSize="12" fontFamily="Arial" fontStyle="italic">Atlas River</text>
 
             {/* Bottom neighborhood blocks */}
             <rect x="20" y="370" width="140" height="100" fill="url(#building-texture)" stroke="rgba(181, 210, 206, 0.15)" strokeWidth="0.5"/>
@@ -293,7 +293,7 @@ function GeospatialVisual() {
             <motion.path
               d="M 0 315 Q 200 295, 400 315 Q 600 335, 800 315"
               fill="none"
-              stroke="rgba(111, 231, 216, 0.7)"
+              stroke="rgba(127, 255, 235, 0.7)"
               strokeWidth="5"
               strokeLinecap="round"
               initial={{ pathLength: 0 }}
@@ -314,11 +314,11 @@ function GeospatialVisual() {
 
             {/* Highway shields */}
             <g transform="translate(100, 295)">
-              <rect x="-15" y="-12" width="30" height="24" rx="3" fill="rgba(111, 231, 216, 0.9)" stroke="rgba(17, 35, 31, 0.8)" strokeWidth="1.5"/>
+              <rect x="-15" y="-12" width="30" height="24" rx="3" fill="rgba(127, 255, 235, 0.9)" stroke="rgba(17, 35, 31, 0.8)" strokeWidth="1.5"/>
               <text x="0" y="4" textAnchor="middle" fill="#0d1815" fontSize="14" fontFamily="Arial" fontWeight="bold">I-5</text>
             </g>
             <g transform="translate(700, 335)">
-              <rect x="-15" y="-12" width="30" height="24" rx="3" fill="rgba(111, 231, 216, 0.9)" stroke="rgba(17, 35, 31, 0.8)" strokeWidth="1.5"/>
+              <rect x="-15" y="-12" width="30" height="24" rx="3" fill="rgba(127, 255, 235, 0.9)" stroke="rgba(17, 35, 31, 0.8)" strokeWidth="1.5"/>
               <text x="0" y="4" textAnchor="middle" fill="#0d1815" fontSize="14" fontFamily="Arial" fontWeight="bold">I-5</text>
             </g>
           </svg>
@@ -358,9 +358,9 @@ function GeospatialVisual() {
               }}
               transition={{ duration: 2, delay: 0.4, repeat: Infinity, repeatDelay: 0.5 }}
             >
-              <circle cx="540" cy="75" r="20" fill="rgba(111, 231, 216, 0.1)" />
-              <circle cx="540" cy="75" r="8" fill="rgba(111, 231, 216, 0.9)" stroke="#0d1815" strokeWidth="2" />
-              <text x="540" y="62" textAnchor="middle" fill="rgba(111, 231, 216, 0.95)" fontSize="10" fontFamily="Arial" fontWeight="600">SEN-12</text>
+              <circle cx="540" cy="75" r="20" fill="rgba(127, 255, 235, 0.1)" />
+              <circle cx="540" cy="75" r="8" fill="rgba(127, 255, 235, 0.9)" stroke="#0d1815" strokeWidth="2" />
+              <text x="540" y="62" textAnchor="middle" fill="rgba(127, 255, 235, 0.95)" fontSize="10" fontFamily="Arial" fontWeight="600">SEN-12</text>
             </motion.g>
 
             {/* Marker 3 - Park */}
@@ -394,9 +394,9 @@ function GeospatialVisual() {
               }}
               transition={{ duration: 2, delay: 1.6, repeat: Infinity, repeatDelay: 0.5 }}
             >
-              <circle cx="700" cy="180" r="20" fill="rgba(111, 231, 216, 0.1)" />
-              <circle cx="700" cy="180" r="8" fill="rgba(111, 231, 216, 0.9)" stroke="#0d1815" strokeWidth="2" />
-              <text x="700" y="167" textAnchor="middle" fill="rgba(111, 231, 216, 0.95)" fontSize="10" fontFamily="Arial" fontWeight="600">HUB-A</text>
+              <circle cx="700" cy="180" r="20" fill="rgba(127, 255, 235, 0.1)" />
+              <circle cx="700" cy="180" r="8" fill="rgba(127, 255, 235, 0.9)" stroke="#0d1815" strokeWidth="2" />
+              <text x="700" y="167" textAnchor="middle" fill="rgba(127, 255, 235, 0.95)" fontSize="10" fontFamily="Arial" fontWeight="600">HUB-A</text>
             </motion.g>
           </motion.g>
         </svg>
@@ -405,8 +405,8 @@ function GeospatialVisual() {
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 600 500">
           <defs>
             <radialGradient id="sensor-glow">
-              <stop offset="0%" stopColor="rgba(111, 231, 216, 0.8)" />
-              <stop offset="100%" stopColor="rgba(111, 231, 216, 0)" />
+              <stop offset="0%" stopColor="rgba(127, 255, 235, 0.8)" />
+              <stop offset="100%" stopColor="rgba(127, 255, 235, 0)" />
             </radialGradient>
           </defs>
 
@@ -425,7 +425,7 @@ function GeospatialVisual() {
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke="rgba(111, 231, 216, 0.3)"
+              stroke="rgba(127, 255, 235, 0.3)"
               strokeWidth="1"
               strokeDasharray="4,4"
               initial={{ pathLength: 0, opacity: 0 }}
@@ -449,7 +449,7 @@ function GeospatialVisual() {
             { cx: 300, cy: 250, type: 'hub' as const, label: 'HUB-A' },
           ].map((station, i) => {
             const colors = {
-              camera: '#6FE7D8',
+              camera: '#7FFFEB',
               sensor: '#4A9888',
               lidar: '#F2C572',
               hub: '#B5D2CE',
@@ -529,8 +529,8 @@ function GeospatialVisual() {
 
           {/* Data packets flowing through network */}
           {[
-            { from: [100, 60], to: [300, 250], delay: 3.5, color: '#6FE7D8' },
-            { from: [300, 250], to: [500, 180], delay: 4, color: '#6FE7D8' },
+            { from: [100, 60], to: [300, 250], delay: 3.5, color: '#7FFFEB' },
+            { from: [300, 250], to: [500, 180], delay: 4, color: '#7FFFEB' },
             { from: [100, 440], to: [300, 250], delay: 4.5, color: '#4A9888' },
             { from: [500, 440], to: [300, 250], delay: 5, color: '#F2C572' },
           ].map((packet, i) => (
@@ -559,8 +559,8 @@ function GeospatialVisual() {
         <motion.div
           className="absolute top-0 left-0 w-full h-1 opacity-60"
           style={{ 
-            background: 'linear-gradient(90deg, transparent 0%, rgba(111, 231, 216, 0.8) 50%, transparent 100%)',
-            boxShadow: '0 0 20px rgba(111, 231, 216, 0.8), 0 0 40px rgba(111, 231, 216, 0.4)',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(127, 255, 235, 0.8) 50%, transparent 100%)',
+            boxShadow: '0 0 20px rgba(127, 255, 235, 0.8), 0 0 40px rgba(127, 255, 235, 0.4)',
             filter: 'blur(1px)'
           }}
           animate={{ 

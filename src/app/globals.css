@@ -6,7 +6,7 @@
   --brand-main: #11231F;
   --brand-secondary: #4A9888;
   --brand-text: #B5D2CE;
-  --brand-deep: #112836;
+  --brand-deep: #0F1E1A;
   --brand-glow: #7FFFEB;
   --brand-accent: #5FD4B8;
   --brand-mint: #A3F5E1;
@@ -168,7 +168,7 @@ a {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #4A9888 0%, #6FE7D8 100%);
+  background: linear-gradient(135deg, var(--brand-secondary) 0%, var(--brand-glow) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

@@ -16,7 +16,7 @@ Next.js 14+ marketing website for AtlasPro AI - a spatial intelligence platform 
 - Secondary: #4A9888
 - Off-white green text: #B5D2CE
 - Deep: #112836
-- Accent glow: #6FE7D8
+- Accent glow: #7FFFEB
 - Warning/Highlight: #F2C572
 - Border/Divider: rgba(181,210,206,0.18)
 
@@ -52,3 +52,6 @@ Next.js 14+ marketing website for AtlasPro AI - a spatial intelligence platform 
 
 ## Status
 ✅ Created copilot-instructions.md
+
+
+test123

@@ -80,7 +80,7 @@ const useCases = [
     solution: 'AI agents query demographic data, internet usage patterns, and competitor coverage to pinpoint optimal marketing sequences.',
     outcomes: ['Find high-conversion neighborhoods', 'Plan market entry strategy', 'Maximize subscriber acquisition'],
     icon: SignalIcon,
-    gradient: 'from-cyan-400 to-blue-500',
+  gradient: 'from-brand-secondary to-brand-accent',
   },
   {
     title: 'Project Bidding Intelligence',
@@ -98,7 +98,7 @@ const useCases = [
     solution: 'Query AI agents to find homes outside flood maps, near top schools, or within specific commute distances—all mapped instantly.',
     outcomes: ['Find ideal homes faster', 'Avoid risky locations', 'Make confident purchases'],
     icon: HomeIcon,
-    gradient: 'from-blue-400 to-brand-glow',
+  gradient: 'from-brand-secondary to-brand-glow',
   },
   {
     title: 'Delivery Route Optimization',

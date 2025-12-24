@@ -153,7 +153,7 @@ export default function ProductPage() {
                   <svg className="w-full h-full">
                     <defs>
                       <pattern id="dashboard-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(111, 231, 216, 0.2)" strokeWidth="1"/>
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(127, 255, 235, 0.2)" strokeWidth="1"/>
                       </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill="url(#dashboard-grid)" />

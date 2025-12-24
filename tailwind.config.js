@@ -11,7 +11,7 @@ module.exports = {
         'brand-main': '#11231F',
         'brand-secondary': '#4A9888',
         'brand-text': '#B5D2CE',
-        'brand-deep': '#112836',
+        'brand-deep': '#0F1E1A',        // Darker green (no blue tint)
         'brand-glow': '#7FFFEB',        // Lighter mint/teal for accents (no blue)
         'brand-accent': '#5FD4B8',      // Green accent instead of orange
         'brand-mint': '#A3F5E1',        // Soft mint for highlights

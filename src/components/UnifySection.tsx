@@ -30,7 +30,7 @@ const dataCards = [
     description: 'Intelligent agents that understand location and accomplish spatial tasks for you',
     items: ['Query geospatial data', 'Analyze neighborhoods', 'Crawl & synthesize web data', 'Identify properties', 'Plan optimal routes', 'Generate insights'],
     icon: RobotIcon,
-    color: 'from-blue-500 to-brand-secondary',
+  color: 'from-brand-secondary to-brand-accent',
   },
   {
     title: 'MCP Tools',

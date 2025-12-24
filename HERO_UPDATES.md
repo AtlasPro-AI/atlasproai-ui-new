@@ -94,7 +94,7 @@ Transformed the Hero section into a sophisticated **real-time map simulation** t
 
 ### Color Coding
 - **Amber (#F2C572)**: Residential zones, LiDAR
-- **Cyan (#6FE7D8)**: Commercial zones, cameras, primary data
+- **Mint (#7FFFEB)**: Commercial zones, cameras, primary data (green-only)
 - **Teal (#4A9888)**: Industrial, sensors, secondary data
 - **Green (#4A9888)**: Parks, environmental
 - **Light Teal (#B5D2CE)**: Central hub, infrastructure

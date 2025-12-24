@@ -21,7 +21,7 @@ const useCases = [
     title: 'Smart Home Buying',
     description: 'First-time home buyers identify properties outside flood zones or find homes matching specific location criteria instantly.',
     icon: '�',
-    color: 'from-blue-400 to-brand-glow',
+  color: 'from-brand-secondary to-brand-glow',
   },
   {
     title: 'Delivery Route Planning',
