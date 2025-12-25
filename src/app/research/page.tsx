@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { getAllPosts, getFeaturedPost, getAllTags } from '@/data/blogPosts'
+import { getAllPosts, getFeaturedPost, getAllTags } from '@/data/researchPosts'
 import { useState } from 'react'
 
 export default function ResearchPage() {

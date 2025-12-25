@@ -1,7 +1,7 @@
-import { BlogPost } from '@/types/blog'
+import { ResearchPost } from '@/types/research'
 
-// Blog posts data - easy to add new posts here
-export const blogPosts: BlogPost[] = [
+// Research posts data - used for /research route
+export const blogPosts: ResearchPost[] = [
   {
     slug: 'gis-workflows-to-spatial-intelligence-os',
     title: 'From GIS Workflows to a Spatial Intelligence OS: What Changes',
@@ -47,15 +47,15 @@ The shift is about spatial operations becoming programmable, so AI agents and hu
 ]
 
 // Helper functions
-export function getAllPosts(): BlogPost[] {
+export function getAllPosts(): ResearchPost[] {
   return blogPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
-export function getFeaturedPost(): BlogPost | undefined {
+export function getFeaturedPost(): ResearchPost | undefined {
   return blogPosts.find(post => post.featured)
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
+export function getPostBySlug(slug: string): ResearchPost | undefined {
   return blogPosts.find(post => post.slug === slug)
 }
 
@@ -67,7 +67,7 @@ export function getAllTags(): string[] {
   return Array.from(tags).sort()
 }
 
-export function getPostsByTag(tag: string): BlogPost[] {
+export function getPostsByTag(tag: string): ResearchPost[] {
   return blogPosts
     .filter(post => post.tags.includes(tag))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

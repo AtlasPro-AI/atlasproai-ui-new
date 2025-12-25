@@ -1,4 +1,4 @@
-import { BlogPost, BlogCategory } from '@/types/blog-extended'
+import { BlogPost, BlogCategory } from '@/types/blog'
 
 export const blogCategories: BlogCategory[] = [
   {

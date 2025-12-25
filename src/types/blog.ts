@@ -1,23 +1,26 @@
-// Blog post type definitions
+// Blog post type definitions (used for /blog route)
 export interface BlogPost {
   slug: string
   title: string
   date: string
-  author: string
-  summary: string
-  content: string
+  author: {
+    name: string
+    title: string
+    avatar?: string
+  }
+  category: string
   tags: string[]
-  featured?: boolean
-  readTime?: string
+  readTime: string
+  featured: boolean
+  excerpt: string
+  content: string
+  coverImage?: string
+  relatedPosts?: string[]
 }
 
-export interface BlogPostMetadata {
-  slug: string
-  title: string
-  date: string
-  author: string
-  summary: string
-  tags: string[]
-  featured?: boolean
-  readTime?: string
+export interface BlogCategory {
+  id: string
+  name: string
+  description: string
+  icon: string
 }

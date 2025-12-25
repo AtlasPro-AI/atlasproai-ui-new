@@ -2,6 +2,7 @@
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import WhitepaperDownloadModal from '@/components/WhitepaperDownloadModal'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { getAllWhitepapers, getFeaturedWhitepapers, whitepaperCategories } from '@/data/whitepapers'
@@ -13,12 +14,6 @@ export default function WhitepapersPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [selectedWhitepaper, setSelectedWhitepaper] = useState<string>('')
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    role: ''
-  })
 
   const filteredWhitepapers = selectedCategory
     ? allWhitepapers.filter(wp => wp.category === selectedCategory)
@@ -36,12 +31,9 @@ export default function WhitepapersPage() {
     setShowDownloadModal(true)
   }
 
-  const handleSubmitDownload = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmitDownload = (formData: any) => {
     // Placeholder - would send to backend/CRM
     alert(`Thank you! Your whitepaper download will begin shortly.`)
-    setShowDownloadModal(false)
-    setFormData({ name: '', email: '', company: '', role: '' })
   }
 
   return (
@@ -267,74 +259,12 @@ export default function WhitepapersPage() {
       </section>
 
       {/* Download Modal */}
-      {showDownloadModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="glass rounded-3xl p-8 max-w-md w-full border border-brand-text/10"
-          >
-            <h3 className="text-2xl font-heading font-bold text-white mb-4">
-              Download Whitepaper
-            </h3>
-            <p className="text-brand-text mb-6">
-              Fill out the form below to receive your free whitepaper.
-            </p>
-            <form onSubmit={handleSubmitDownload} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Full Name *"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 bg-brand-deep/50 border border-brand-text/20 rounded-xl text-white placeholder-brand-text/50 focus:outline-none focus:border-brand-glow/50"
-              />
-              <input
-                type="email"
-                placeholder="Work Email *"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 bg-brand-deep/50 border border-brand-text/20 rounded-xl text-white placeholder-brand-text/50 focus:outline-none focus:border-brand-glow/50"
-              />
-              <input
-                type="text"
-                placeholder="Company Name *"
-                required
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full px-4 py-3 bg-brand-deep/50 border border-brand-text/20 rounded-xl text-white placeholder-brand-text/50 focus:outline-none focus:border-brand-glow/50"
-              />
-              <input
-                type="text"
-                placeholder="Job Title *"
-                required
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full px-4 py-3 bg-brand-deep/50 border border-brand-text/20 rounded-xl text-white placeholder-brand-text/50 focus:outline-none focus:border-brand-glow/50"
-              />
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  className="flex-1 px-6 py-3 bg-brand-secondary hover:bg-brand-secondary/80 text-white rounded-xl font-semibold transition-all"
-                >
-                  Download
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowDownloadModal(false)}
-                  className="px-6 py-3 bg-transparent border border-brand-text/20 text-brand-text hover:bg-brand-text/10 rounded-xl font-semibold transition-all"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-            <p className="text-xs text-brand-text/60 mt-4">
-              We respect your privacy. Your information will only be used to send you relevant content.
-            </p>
-          </motion.div>
-        </div>
-      )}
+      <WhitepaperDownloadModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        whitepaperTitle={allWhitepapers.find(wp => wp.slug === selectedWhitepaper)?.title}
+        onSubmit={handleSubmitDownload}
+      />
 
       <Footer />
     </main>
