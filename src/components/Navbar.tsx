@@ -51,19 +51,19 @@ export default function Navbar() {
               ]}
             />
 
-            {/* Research Dropdown */}
+            {/* Resources Dropdown */}
             <DropdownMenu 
-              title="Research" 
-              active={activeDropdown === 'research'}
-              onToggle={() => setActiveDropdown(activeDropdown === 'research' ? null : 'research')}
+              title="Resources" 
+              active={activeDropdown === 'resources'}
+              onToggle={() => setActiveDropdown(activeDropdown === 'resources' ? null : 'resources')}
               items={[
+                { label: 'Research', href: '/research' },
                 { label: 'Blog', href: '/blog' },
                 { label: 'Whitepapers', href: '/whitepapers' },
               ]}
             />
 
             <NavLink href="/use-cases">Use Cases</NavLink>
-            <NavLink href="/about">About</NavLink>
             
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
@@ -101,8 +101,12 @@ export default function Navbar() {
             <div className="px-4 py-6 space-y-4">
               <MobileNavLink href="/product" onClick={() => setIsMobileMenuOpen(false)}>Product</MobileNavLink>
               <MobileNavLink href="/use-cases" onClick={() => setIsMobileMenuOpen(false)}>Use Cases</MobileNavLink>
-              <MobileNavLink href="/about" onClick={() => setIsMobileMenuOpen(false)}>About</MobileNavLink>
-              <MobileNavLink href="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
+              <div className="border-t border-brand-text/10 pt-3 mt-3">
+                <div className="text-brand-text/60 text-xs uppercase tracking-wider mb-2 px-2">Resources</div>
+                <MobileNavLink href="/research" onClick={() => setIsMobileMenuOpen(false)}>Research</MobileNavLink>
+                <MobileNavLink href="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
+                <MobileNavLink href="/whitepapers" onClick={() => setIsMobileMenuOpen(false)}>Whitepapers</MobileNavLink>
+              </div>
               <Link
                 href="/contact"
                 className="block btn-primary text-center mt-4"
