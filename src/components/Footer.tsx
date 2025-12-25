@@ -46,7 +46,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-heading font-bold mb-4">Company</h3>
             <ul className="space-y-2">
-              <FooterLink href="/about">About Us</FooterLink>
+              <FooterLink href="/research">Research</FooterLink>
               <FooterLink href="/contact">Contact</FooterLink>
               <FooterLink href="/contact">Request Demo</FooterLink>
               <FooterLink href="/privacy">Privacy Policy</FooterLink>
