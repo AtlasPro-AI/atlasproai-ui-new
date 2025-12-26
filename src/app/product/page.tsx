@@ -2,6 +2,7 @@
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import InteractiveMap from '@/components/InteractiveMap'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
@@ -120,7 +121,7 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* Dashboard Preview */}
+      {/* Live Deployments Map */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-brand-main to-brand-deep">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -131,10 +132,11 @@ export default function ProductPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
-              Unified Command Center
+              Real-Time Deployment View
             </h2>
             <p className="text-xl text-brand-text max-w-3xl mx-auto">
-              All your spatial intelligence in one intuitive, customizable dashboard
+              See how AtlasPro powers spatial intelligence operations across infrastructure projects, 
+              monitoring zones, and analytics deployments
             </p>
           </motion.div>
 
@@ -143,39 +145,32 @@ export default function ProductPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="glass rounded-card-lg p-8 shadow-2xl"
           >
-            {/* Dashboard Mock */}
-            <div className="aspect-video bg-gradient-to-br from-brand-deep to-brand-main rounded-lg border border-brand-text/20 relative overflow-hidden">
-              {/* Map visualization mock */}
-              <div className="absolute inset-4 border-2 border-brand-glow/30 rounded-lg">
-                <div className="absolute inset-0 opacity-30">
-                  <svg className="w-full h-full">
-                    <defs>
-                      <pattern id="dashboard-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(127, 255, 235, 0.2)" strokeWidth="1"/>
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#dashboard-grid)" />
-                  </svg>
-                </div>
-              </div>
+            <InteractiveMap />
+          </motion.div>
 
-              {/* Info cards overlay */}
-              <div className="absolute top-8 left-8 right-8 flex gap-4">
-                <div className="glass rounded-lg px-4 py-3 flex-1">
-                  <div className="text-brand-glow text-2xl font-bold">127</div>
-                  <div className="text-brand-text text-xs">Active Monitors</div>
-                </div>
-                <div className="glass rounded-lg px-4 py-3 flex-1">
-                  <div className="text-brand-accent text-2xl font-bold">3</div>
-                  <div className="text-brand-text text-xs">Recent Alerts</div>
-                </div>
-                <div className="glass rounded-lg px-4 py-3 flex-1">
-                  <div className="text-brand-secondary text-2xl font-bold">98.7%</div>
-                  <div className="text-brand-text text-xs">Accuracy</div>
-                </div>
-              </div>
+          {/* Map Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-3 gap-6 mt-12"
+          >
+            <div className="glass rounded-card p-6 text-center">
+              <div className="text-brand-glow text-4xl font-bold mb-2">127</div>
+              <div className="text-brand-text">Active Monitors</div>
+              <div className="text-brand-text/60 text-sm mt-1">Across 5 deployments</div>
+            </div>
+            <div className="glass rounded-card p-6 text-center">
+              <div className="text-brand-accent text-4xl font-bold mb-2">98.7%</div>
+              <div className="text-brand-text">Detection Accuracy</div>
+              <div className="text-brand-text/60 text-sm mt-1">AI-powered analysis</div>
+            </div>
+            <div className="glass rounded-card p-6 text-center">
+              <div className="text-brand-secondary text-4xl font-bold mb-2">3.2s</div>
+              <div className="text-brand-text">Average Query Time</div>
+              <div className="text-brand-text/60 text-sm mt-1">Real-time responsiveness</div>
             </div>
           </motion.div>
         </div>
