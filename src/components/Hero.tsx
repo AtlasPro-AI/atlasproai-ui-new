@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { memo } from 'react'
 
 export default function Hero() {
   return (
@@ -99,7 +100,8 @@ export default function Hero() {
   )
 }
 
-function TopographicBackground() {
+// Memoize background component to prevent unnecessary re-renders
+const TopographicBackground = memo(function TopographicBackground() {
   return (
     <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -109,33 +111,34 @@ function TopographicBackground() {
             fill="none"
             stroke="rgba(74, 152, 136, 0.2)"
             strokeWidth="1"
-            animate={{ pathLength: [0, 1], opacity: [0.2, 0.5, 0.2] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
           />
           <motion.path
             d="M10,70 Q30,50 50,70 T90,70"
             fill="none"
             stroke="rgba(74, 152, 136, 0.15)"
             strokeWidth="1"
-            animate={{ pathLength: [0, 1], opacity: [0.15, 0.4, 0.15] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            animate={{ opacity: [0.15, 0.4, 0.15] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 0.5 }}
           />
           <motion.path
             d="M10,30 Q30,10 50,30 T90,30"
             fill="none"
             stroke="rgba(74, 152, 136, 0.1)"
             strokeWidth="1"
-            animate={{ pathLength: [0, 1], opacity: [0.1, 0.3, 0.1] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            animate={{ opacity: [0.1, 0.3, 0.1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 1 }}
           />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#topographic)" />
     </svg>
   )
-}
+})
 
-function GeospatialVisual() {
+// Memoize visual component to prevent unnecessary re-renders
+const GeospatialVisual = memo(function GeospatialVisual() {
   return (
     <div className="relative w-full h-[500px]">
       {/* Map container with realistic map background */}
@@ -672,4 +675,4 @@ function GeospatialVisual() {
       </motion.div>
     </div>
   )
-}
+})

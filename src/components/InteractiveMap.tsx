@@ -1,13 +1,30 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import dynamic from 'next/dynamic'
 import 'leaflet/dist/leaflet.css'
 
-// Dynamically import map components (client-side only)
+// Loading skeleton for better UX
+function MapLoadingSkeleton() {
+  return (
+    <div className="relative w-full h-[600px] bg-brand-deep rounded-card-lg overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-brand-glow/30 border-t-brand-glow rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-brand-text">Loading map...</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Dynamically import map components (client-side only) with loading state
 const MapContainer = dynamic(
   () => import('react-leaflet').then((mod) => mod.MapContainer),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <MapLoadingSkeleton />
+  }
 )
 
 const TileLayer = dynamic(
@@ -88,14 +105,15 @@ const sampleLocations: MapLocation[] = [
   }
 ]
 
-export default function InteractiveMap() {
+// Memoize component to prevent unnecessary re-renders
+const InteractiveMap = memo(function InteractiveMap() {
   const [isClient, setIsClient] = useState(false)
   const [customIcon, setCustomIcon] = useState<any>(null)
 
   useEffect(() => {
     setIsClient(true)
 
-    // Fix for default marker icon in Next.js
+    // Fix for default marker icon in Next.js - load Leaflet only once
     if (typeof window !== 'undefined') {
       const L = require('leaflet')
       
@@ -236,4 +254,6 @@ export default function InteractiveMap() {
       </div>
     </div>
   )
-}
+})
+
+export default InteractiveMap
