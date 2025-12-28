@@ -1,6 +1,6 @@
 # AtlasPro AI - Marketing Website
 
-A modern, high-conversion marketing website for AtlasPro AI, the spatial intelligence platform that makes the physical world machine-readable.
+A modern, high conversion marketing website for AtlasPro AI, the spatial intelligence platform that makes the physical world machine readable.
 
 ## 🚀 Features
 
