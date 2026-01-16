@@ -60,22 +60,22 @@ a {
   background: var(--brand-glow);
 }
 
-/* Animations */
+/* Animations - Using GPU-accelerated properties for better performance */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translate3d(0, 0px, 0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translate3d(0, -20px, 0);
   }
 }
 
 @keyframes scan {
   0% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
   100% {
-    transform: translateX(200%);
+    transform: translate3d(200%, 0, 0);
   }
 }
 
@@ -91,11 +91,11 @@ a {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 30px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -130,32 +130,47 @@ a {
   }
 }
 
+/* Utility classes for animations - add will-change for performance */
 .animate-float {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-scan {
   animation: scan 8s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+  will-change: opacity;
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
+  will-change: opacity, transform;
 }
 
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;
+  will-change: opacity;
 }
 
 .animate-slide-in-left {
   animation: slideInLeft 0.8s ease-out forwards;
+  will-change: opacity, transform;
 }
 
 .animate-slide-in-right {
   animation: slideInRight 0.8s ease-out forwards;
+  will-change: opacity, transform;
+}
+
+/* GPU acceleration for smooth animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Glass morphism effect */

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, FormEvent } from 'react'
+import { useState, useEffect, useRef, FormEvent, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface WhitepaperDownloadModalProps {
@@ -33,6 +33,22 @@ export default function WhitepaperDownloadModal({
   const modalRef = useRef<HTMLDivElement>(null)
   const firstInputRef = useRef<HTMLInputElement>(null)
   const previousActiveElement = useRef<HTMLElement | null>(null)
+
+  // Memoize handleBackdropClick to prevent unnecessary re-renders
+  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }, [onClose])
+
+  // Memoize handleSubmit
+  const handleSubmit = useCallback((e: FormEvent) => {
+    e.preventDefault()
+    onSubmit(formData)
+    // Reset form
+    setFormData({ name: '', email: '', company: '', role: '' })
+    onClose()
+  }, [formData, onSubmit, onClose])
 
   // Save the currently focused element when modal opens
   useEffect(() => {
@@ -106,20 +122,6 @@ export default function WhitepaperDownloadModal({
       document.body.style.overflow = 'unset'
     }
   }, [isOpen])
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    onSubmit(formData)
-    // Reset form
-    setFormData({ name: '', email: '', company: '', role: '' })
-    onClose()
-  }
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose()
-    }
-  }
 
   return (
     <AnimatePresence>

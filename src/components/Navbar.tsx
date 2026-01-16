@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Logo from './Logo'
 
@@ -11,12 +11,36 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
 
   useEffect(() => {
+    let ticking = false
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20)
+          ticking = false
+        })
+        ticking = true
+      }
     }
-    window.addEventListener('scroll', handleScroll)
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close mobile menu when clicking outside or on link
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false)
+  }, [])
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (activeDropdown) setActiveDropdown(null)
+    }
+    
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [activeDropdown])
 
   return (
     <motion.nav
@@ -80,6 +104,8 @@ export default function Navbar() {
             className="lg:hidden text-brand-text"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
               <path d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
@@ -99,18 +125,18 @@ export default function Navbar() {
             className="lg:hidden overflow-hidden bg-brand-main/95 backdrop-blur-xl border-b border-brand-text/15"
           >
             <div className="px-4 py-6 space-y-4">
-              <MobileNavLink href="/product" onClick={() => setIsMobileMenuOpen(false)}>Product</MobileNavLink>
-              <MobileNavLink href="/use-cases" onClick={() => setIsMobileMenuOpen(false)}>Use Cases</MobileNavLink>
+              <MobileNavLink href="/product" onClick={closeMobileMenu}>Product</MobileNavLink>
+              <MobileNavLink href="/use-cases" onClick={closeMobileMenu}>Use Cases</MobileNavLink>
               <div className="border-t border-brand-text/10 pt-3 mt-3">
                 <div className="text-brand-text/60 text-xs uppercase tracking-wider mb-2 px-2">Resources</div>
-                <MobileNavLink href="/research" onClick={() => setIsMobileMenuOpen(false)}>Research</MobileNavLink>
-                <MobileNavLink href="/blog" onClick={() => setIsMobileMenuOpen(false)}>Blog</MobileNavLink>
-                <MobileNavLink href="/whitepapers" onClick={() => setIsMobileMenuOpen(false)}>Whitepapers</MobileNavLink>
+                <MobileNavLink href="/research" onClick={closeMobileMenu}>Research</MobileNavLink>
+                <MobileNavLink href="/blog" onClick={closeMobileMenu}>Blog</MobileNavLink>
+                <MobileNavLink href="/whitepapers" onClick={closeMobileMenu}>Whitepapers</MobileNavLink>
               </div>
               <Link
                 href="/contact"
                 className="block btn-primary text-center mt-4"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
               >
                 Request Demo
               </Link>
@@ -122,7 +148,8 @@ export default function Navbar() {
   )
 }
 
-function DropdownMenu({ 
+// Memoize dropdown to prevent unnecessary re-renders
+const DropdownMenu = memo(function DropdownMenu({ 
   title, 
   items, 
   active, 
@@ -138,8 +165,13 @@ function DropdownMenu({
       className="relative"
       onMouseEnter={onToggle}
       onMouseLeave={onToggle}
+      onClick={(e) => e.stopPropagation()}
     >
-      <button className="text-brand-text hover:text-white transition-colors duration-200 font-medium relative group flex items-center gap-1">
+      <button 
+        className="text-brand-text hover:text-white transition-colors duration-200 font-medium relative group flex items-center gap-1"
+        aria-expanded={active}
+        aria-haspopup="true"
+      >
         {title}
         <svg className={`w-4 h-4 transition-transform duration-200 ${active ? 'rotate-180' : ''}`} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
           <path d="M19 9l-7 7-7-7"></path>
@@ -169,9 +201,10 @@ function DropdownMenu({
       </AnimatePresence>
     </div>
   )
-}
+})
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+// Memoize NavLink component
+const NavLink = memo(function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
@@ -186,9 +219,10 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
       />
     </Link>
   )
-}
+})
 
-function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
+// Memoize MobileNavLink component
+const MobileNavLink = memo(function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
   return (
     <Link
       href={href}
@@ -198,4 +232,4 @@ function MobileNavLink({ href, children, onClick }: { href: string; children: Re
       {children}
     </Link>
   )
-}
+})
