@@ -8,7 +8,6 @@ Transformed the Hero section into a sophisticated **real-time map simulation** t
 ### 1. **Topographic Base Layer**
 - Contour lines creating realistic terrain effect
 - Layered opacity for depth perception
-- Subtle animation for organic feel
 - Professional cartographic style
 
 ### 2. **Water Bodies**
