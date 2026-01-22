@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
+import Link from 'next/link'
 
 // Icon Components
 const TrendingUpIcon = () => (
@@ -47,36 +48,42 @@ const useCases = [
     description: 'Marketers analyze neighborhoods by demographics to target high-ROI areas for campaigns like Google Fiber marketing sequences.',
     icon: TrendingUpIcon,
     color: 'from-brand-secondary to-brand-glow',
+    slug: 'marketing-campaign-targeting',
   },
   {
     title: 'Project Bidding Intelligence',
     description: 'CEOs and project managers use AI agents to crawl the web, synthesize data, and display project intelligence on maps.',
     icon: BriefcaseIcon,
     color: 'from-brand-accent to-orange-400',
+    slug: 'project-bidding-intelligence',
   },
   {
     title: 'Smart Home Buying',
     description: 'First-time home buyers identify properties outside flood zones or find homes matching specific location criteria instantly.',
     icon: HomeIcon,
-  color: 'from-brand-secondary to-brand-glow',
+    color: 'from-brand-secondary to-brand-glow',
+    slug: 'smart-home-buying',
   },
   {
     title: 'Delivery Route Planning',
     description: 'Solo business owners plan optimal delivery routes, saving time and fuel costs with AI-powered routing.',
     icon: TruckIcon,
     color: 'from-green-400 to-brand-secondary',
+    slug: 'delivery-route-planning',
   },
   {
     title: 'House Flipping ROI',
     description: 'House flippers query AI agents to identify neighborhoods with the highest investment potential and fastest returns.',
     icon: HammerIcon,
     color: 'from-brand-glow to-cyan-400',
+    slug: 'house-flipping-roi',
   },
   {
     title: 'Real Estate Development',
     description: 'Developers discover which neighborhoods to build condos or multi-family units based on growth trends and demographics.',
     icon: BuildingIcon,
     color: 'from-orange-400 to-brand-accent',
+    slug: 'real-estate-development',
   },
 ]
 
@@ -136,17 +143,18 @@ function UseCaseCard({ useCase, index, isInView }: { useCase: typeof useCases[0]
   const Icon = useCase.icon
   
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 50 }}
-      animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-      transition={{ 
-        duration: 0.6, 
-        delay: index * 0.15,
-        ease: "easeOut"
-      }}
-      className="glass rounded-card-lg overflow-hidden hover:shadow-glow transition-all duration-500 group cursor-pointer relative"
-      whileHover={{ y: -8, scale: 1.02 }}
-    >
+    <Link href={`/use-cases#${useCase.slug}`}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 50 }}
+        animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+        transition={{ 
+          duration: 0.6, 
+          delay: index * 0.15,
+          ease: "easeOut"
+        }}
+        className="glass rounded-card-lg overflow-hidden hover:shadow-glow transition-all duration-500 group cursor-pointer relative h-full"
+        whileHover={{ y: -8, scale: 1.02 }}
+      >
       {/* Gradient header with animation */}
       <motion.div 
         className={`h-2 bg-gradient-to-r ${useCase.color}`}
@@ -200,5 +208,6 @@ function UseCaseCard({ useCase, index, isInView }: { useCase: typeof useCases[0]
         </motion.div>
       </div>
     </motion.div>
+    </Link>
   )
 }
