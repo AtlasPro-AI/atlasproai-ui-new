@@ -1,85 +1,197 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import { memo } from 'react'
+import { memo, useRef } from 'react'
+
+// Apple-inspired easing curves
+const easeOutExpo = [0.16, 1, 0.3, 1]
+const easeOutQuint = [0.22, 1, 0.36, 1]
 
 export default function Hero() {
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  })
+  
+  // Parallax effects
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200])
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-brand-deep via-brand-main to-brand-secondary">
-      {/* Animated Background */}
+    <section 
+      ref={containerRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-main"
+    >
+      {/* Premium gradient background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-30">
-          <TopographicBackground />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-main/50 to-brand-main"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-deep via-brand-main to-brand-main" />
+        
+        {/* Ambient glow orbs */}
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(74, 152, 136, 0.15) 0%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(127, 255, 235, 0.1) 0%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.4, 0.6, 0.4],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        
+        {/* Subtle grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(181, 210, 206, 0.5) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(181, 210, 206, 0.5) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}
+        />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Content with parallax */}
+      <motion.div 
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32"
+        style={{ y, opacity, scale }}
+      >
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-5xl md:text-7xl font-heading font-bold mb-6 tracking-tight"
-            >
-              AtlasPro AI
-            </motion.h1>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-3xl md:text-5xl font-heading font-bold mb-8 leading-tight drop-shadow-lg"
-            >
-              The <span className="gradient-text">spatial intelligence layer</span> that makes the physical world machine-readable
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-xl text-brand-text mb-12 leading-relaxed max-w-2xl"
-            >
-              Transforms maps, satellite imagery, LiDAR, and sensor data into real-time monitoring, 
-              automated analysis, and operational simulations that enable enterprises and governments 
-              to operate safer, faster, and smarter.
-            </motion.p>
-
+          <div className="text-center lg:text-left">
+            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
+              transition={{ duration: 0.8, ease: easeOutExpo }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-8"
+            >
+              <span className="w-2 h-2 rounded-full bg-brand-glow animate-pulse" />
+              <span className="text-sm text-brand-text font-medium">Now available for enterprise</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: easeOutExpo, delay: 0.1 }}
+              className="text-6xl md:text-8xl font-heading font-bold mb-6 tracking-tight"
+            >
+              <span className="block">AtlasPro</span>
+              <span className="gradient-text">AI</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: easeOutExpo, delay: 0.2 }}
+              className="text-2xl md:text-3xl font-heading font-medium mb-6 text-white/90 leading-tight"
+            >
+              The spatial intelligence layer that makes the physical world{' '}
+              <span className="gradient-text">machine-readable</span>
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: easeOutExpo, delay: 0.3 }}
+              className="text-lg text-brand-text/80 mb-10 leading-relaxed max-w-xl"
+            >
+              Transform maps, satellite imagery, and sensor data into real-time intelligence. 
+              Operate safer, faster, and smarter.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: easeOutExpo, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <Link href="/contact" className="btn-primary">
-                Request a Demo
+              <Link href="/contact" className="btn-primary group">
+                <span className="relative z-10">Request a Demo</span>
+                <motion.span 
+                  className="absolute inset-0 rounded-xl bg-white/10"
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileHover={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
               </Link>
-              <Link href="/use-cases" className="btn-secondary">
-                Explore Use Cases
+              <Link href="/product" className="btn-secondary group">
+                <span>Explore Platform</span>
+                <motion.svg 
+                  className="w-4 h-4 ml-2 inline-block" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                  initial={{ x: 0 }}
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </motion.svg>
               </Link>
             </motion.div>
-          </motion.div>
+
+            {/* Trust indicators */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="mt-12 pt-8 border-t border-white/5"
+            >
+              <p className="text-sm text-brand-text/50 mb-4">Trusted by industry leaders</p>
+              <div className="flex items-center gap-8 justify-center lg:justify-start opacity-40">
+                {['Enterprise', 'Government', 'Defense'].map((item, i) => (
+                  <motion.span 
+                    key={item}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1 + i * 0.1 }}
+                    className="text-sm font-medium text-white/60"
+                  >
+                    {item}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Right Visual */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 1 }}
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: easeOutExpo, delay: 0.3 }}
             className="relative hidden lg:block"
           >
             <GeospatialVisual />
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
@@ -88,54 +200,18 @@ export default function Hero() {
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        <div className="w-6 h-10 border-2 border-brand-text rounded-full flex justify-center">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-1.5 h-1.5 bg-brand-glow rounded-full mt-2"
-          />
-        </div>
+        <motion.div 
+          className="flex flex-col items-center gap-2"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="text-xs text-brand-text/40 uppercase tracking-widest">Scroll</span>
+          <div className="w-[1px] h-8 bg-gradient-to-b from-brand-text/40 to-transparent" />
+        </motion.div>
       </motion.div>
     </section>
   )
 }
-
-// Memoize background component to prevent unnecessary re-renders
-const TopographicBackground = memo(function TopographicBackground() {
-  return (
-    <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="topographic" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-          <motion.path
-            d="M10,50 Q30,30 50,50 T90,50"
-            fill="none"
-            stroke="rgba(74, 152, 136, 0.2)"
-            strokeWidth="1"
-            animate={{ opacity: [0.2, 0.5, 0.2] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.path
-            d="M10,70 Q30,50 50,70 T90,70"
-            fill="none"
-            stroke="rgba(74, 152, 136, 0.15)"
-            strokeWidth="1"
-            animate={{ opacity: [0.15, 0.4, 0.15] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear", delay: 0.5 }}
-          />
-          <motion.path
-            d="M10,30 Q30,10 50,30 T90,30"
-            fill="none"
-            stroke="rgba(74, 152, 136, 0.1)"
-            strokeWidth="1"
-            animate={{ opacity: [0.1, 0.3, 0.1] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear", delay: 1 }}
-          />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#topographic)" />
-    </svg>
-  )
-})
 
 // Memoize visual component to prevent unnecessary re-renders
 const GeospatialVisual = memo(function GeospatialVisual() {

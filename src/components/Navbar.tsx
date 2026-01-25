@@ -2,30 +2,29 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useCallback, memo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion'
 import Logo from './Logo'
+
+// Apple-inspired easing
+const easeOutExpo = [0.16, 1, 0.3, 1]
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-
-  useEffect(() => {
-    let ticking = false
-    
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20)
-          ticking = false
-        })
-        ticking = true
-      }
+  const { scrollY } = useScroll()
+  
+  // Smart hide on scroll down, show on scroll up
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0
+    if (latest > previous && latest > 150) {
+      setIsHidden(true)
+    } else {
+      setIsHidden(false)
     }
-    
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    setIsScrolled(latest > 20)
+  })
 
   // Close mobile menu when clicking outside or on link
   const closeMobileMenu = useCallback(() => {
@@ -45,33 +44,56 @@ export default function Navbar() {
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      animate={{ 
+        y: isHidden ? -100 : 0, 
+        opacity: isHidden ? 0 : 1 
+      }}
+      transition={{ duration: 0.4, ease: easeOutExpo }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled 
-          ? 'bg-brand-main/80 backdrop-blur-xl border-b border-brand-text/15 shadow-lg' 
-          : 'bg-transparent'
+          ? 'py-3' 
+          : 'py-5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+      {/* Background with smooth transition */}
+      <motion.div 
+        className="absolute inset-0 border-b"
+        initial={{ opacity: 0 }}
+        animate={{ 
+          opacity: isScrolled ? 1 : 0,
+          backdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
+        }}
+        transition={{ duration: 0.3 }}
+        style={{
+          background: 'rgba(17, 35, 31, 0.85)',
+          borderColor: 'rgba(181, 210, 206, 0.08)',
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="group">
-            <Logo />
+          <Link href="/" className="group relative z-10">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Logo />
+            </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-1">
             {/* Product Dropdown */}
             <DropdownMenu 
               title="Product" 
               active={activeDropdown === 'product'}
               onToggle={() => setActiveDropdown(activeDropdown === 'product' ? null : 'product')}
               items={[
-                { label: 'Overview', href: '/product' },
-                { label: 'Capabilities', href: '/product#capabilities' },
-                { label: 'MCP Tools', href: '/product#mcp' },
-                { label: 'Security', href: '/product#security' },
+                { label: 'Overview', href: '/product', desc: 'Platform capabilities' },
+                { label: 'Capabilities', href: '/product#capabilities', desc: 'AI-powered features' },
+                { label: 'Security', href: '/product#security', desc: 'Enterprise-grade protection' },
               ]}
             />
 
@@ -81,18 +103,23 @@ export default function Navbar() {
               active={activeDropdown === 'resources'}
               onToggle={() => setActiveDropdown(activeDropdown === 'resources' ? null : 'resources')}
               items={[
-                { label: 'Research', href: '/research' },
-                { label: 'Blog', href: '/blog' },
-                { label: 'Whitepapers', href: '/whitepapers' },
+                { label: 'Research', href: '/research', desc: 'Latest publications' },
+                { label: 'Blog', href: '/blog', desc: 'Insights & updates' },
+                { label: 'Whitepapers', href: '/whitepapers', desc: 'Technical deep-dives' },
               ]}
             />
 
             <NavLink href="/use-cases">Use Cases</NavLink>
+            <NavLink href="/about">About</NavLink>
             
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div 
+              className="ml-4"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <Link
                 href="/contact"
-                className="btn-primary text-sm px-6 py-3"
+                className="btn-primary text-sm px-5 py-2.5"
               >
                 Request Demo
               </Link>
@@ -101,15 +128,38 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <motion.button 
-            className="lg:hidden text-brand-text"
+            className="lg:hidden relative z-10 w-10 h-10 flex items-center justify-center"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.9 }}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
           >
-            <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-              <path d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
-            </svg>
+            <div className="w-5 h-4 relative flex flex-col justify-between">
+              <motion.span 
+                className="w-full h-0.5 bg-brand-text rounded-full origin-center"
+                animate={{ 
+                  rotate: isMobileMenuOpen ? 45 : 0,
+                  y: isMobileMenuOpen ? 7 : 0
+                }}
+                transition={{ duration: 0.3, ease: easeOutExpo }}
+              />
+              <motion.span 
+                className="w-full h-0.5 bg-brand-text rounded-full"
+                animate={{ 
+                  opacity: isMobileMenuOpen ? 0 : 1,
+                  scaleX: isMobileMenuOpen ? 0 : 1
+                }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span 
+                className="w-full h-0.5 bg-brand-text rounded-full origin-center"
+                animate={{ 
+                  rotate: isMobileMenuOpen ? -45 : 0,
+                  y: isMobileMenuOpen ? -7 : 0
+                }}
+                transition={{ duration: 0.3, ease: easeOutExpo }}
+              />
+            </div>
           </motion.button>
         </div>
       </div>
@@ -118,35 +168,68 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden overflow-hidden bg-brand-main/95 backdrop-blur-xl border-b border-brand-text/15"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.4, ease: easeOutExpo }}
+            className="lg:hidden overflow-hidden absolute top-full left-0 right-0"
+            style={{
+              background: 'rgba(17, 35, 31, 0.98)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+            }}
           >
-            <div className="px-4 py-6 space-y-4">
+            <motion.div 
+              className="px-6 py-8 space-y-2"
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { transition: { staggerChildren: 0.05 } },
+                closed: { transition: { staggerChildren: 0.02, staggerDirection: -1 } }
+              }}
+            >
               <MobileNavLink href="/product" onClick={closeMobileMenu}>Product</MobileNavLink>
               <MobileNavLink href="/use-cases" onClick={closeMobileMenu}>Use Cases</MobileNavLink>
-              <div className="border-t border-brand-text/10 pt-3 mt-3">
-                <div className="text-brand-text/60 text-xs uppercase tracking-wider mb-2 px-2">Resources</div>
+              <MobileNavLink href="/about" onClick={closeMobileMenu}>About</MobileNavLink>
+              
+              <motion.div 
+                className="border-t border-white/5 pt-4 mt-4"
+                variants={{
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 10 }
+                }}
+              >
+                <p className="text-xs text-brand-text/40 uppercase tracking-wider mb-3">Resources</p>
                 <MobileNavLink href="/research" onClick={closeMobileMenu}>Research</MobileNavLink>
                 <MobileNavLink href="/blog" onClick={closeMobileMenu}>Blog</MobileNavLink>
                 <MobileNavLink href="/whitepapers" onClick={closeMobileMenu}>Whitepapers</MobileNavLink>
-              </div>
-              <Link
-                href="/contact"
-                className="block btn-primary text-center mt-4"
-                onClick={closeMobileMenu}
+              </motion.div>
+
+              <motion.div
+                variants={{
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 10 }
+                }}
+                className="pt-4"
               >
-                Request Demo
-              </Link>
-            </div>
+                <Link
+                  href="/contact"
+                  className="block btn-primary text-center"
+                  onClick={closeMobileMenu}
+                >
+                  Request Demo
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.nav>
   )
 }
+
+// Apple-inspired easing for components
+const dropdownEase = [0.16, 1, 0.3, 1]
 
 // Memoize dropdown to prevent unnecessary re-renders
 const DropdownMenu = memo(function DropdownMenu({ 
@@ -156,7 +239,7 @@ const DropdownMenu = memo(function DropdownMenu({
   onToggle 
 }: { 
   title: string
-  items: { label: string; href: string }[]
+  items: { label: string; href: string; desc?: string }[]
   active: boolean
   onToggle: () => void
 }) {
@@ -168,34 +251,63 @@ const DropdownMenu = memo(function DropdownMenu({
       onClick={(e) => e.stopPropagation()}
     >
       <button 
-        className="text-brand-text hover:text-white transition-colors duration-200 font-medium relative group flex items-center gap-1"
+        className="px-4 py-2 text-brand-text hover:text-white transition-colors duration-300 font-medium relative group flex items-center gap-1 rounded-lg hover:bg-white/5"
         aria-expanded={active}
         aria-haspopup="true"
       >
         {title}
-        <svg className={`w-4 h-4 transition-transform duration-200 ${active ? 'rotate-180' : ''}`} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+        <motion.svg 
+          className="w-4 h-4" 
+          fill="none" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth="2" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+          animate={{ rotate: active ? 180 : 0 }}
+          transition={{ duration: 0.2, ease: dropdownEase }}
+        >
           <path d="M19 9l-7 7-7-7"></path>
-        </svg>
+        </motion.svg>
       </button>
 
       <AnimatePresence>
         {active && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 w-48 bg-brand-main/95 backdrop-blur-xl border border-brand-text/15 rounded-card shadow-glow overflow-hidden"
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: dropdownEase }}
+            className="absolute top-full left-0 mt-2 w-64 rounded-2xl overflow-hidden"
+            style={{
+              background: 'rgba(17, 35, 31, 0.95)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+              border: '1px solid rgba(181, 210, 206, 0.1)',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05) inset'
+            }}
           >
-            {items.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="block px-4 py-3 text-brand-text hover:text-white hover:bg-brand-secondary/20 transition-all duration-200"
-              >
-                {item.label}
-              </Link>
-            ))}
+            <div className="p-2">
+              {items.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.2 }}
+                >
+                  <Link
+                    href={item.href}
+                    className="block px-4 py-3 rounded-xl text-brand-text hover:text-white hover:bg-white/5 transition-all duration-200 group"
+                  >
+                    <span className="font-medium">{item.label}</span>
+                    {item.desc && (
+                      <span className="block text-xs text-brand-text/50 mt-0.5 group-hover:text-brand-text/70 transition-colors">
+                        {item.desc}
+                      </span>
+                    )}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -208,15 +320,9 @@ const NavLink = memo(function NavLink({ href, children }: { href: string; childr
   return (
     <Link
       href={href}
-      className="text-brand-text hover:text-white transition-colors duration-200 font-medium relative group"
+      className="px-4 py-2 text-brand-text hover:text-white transition-all duration-300 font-medium relative group rounded-lg hover:bg-white/5"
     >
       {children}
-      <motion.span 
-        className="absolute -bottom-1 left-0 h-0.5 bg-brand-glow"
-        initial={{ width: 0 }}
-        whileHover={{ width: '100%' }}
-        transition={{ duration: 0.3 }}
-      />
     </Link>
   )
 })
@@ -224,12 +330,19 @@ const NavLink = memo(function NavLink({ href, children }: { href: string; childr
 // Memoize MobileNavLink component
 const MobileNavLink = memo(function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="block text-brand-text hover:text-white transition-colors duration-200 font-medium py-2"
+    <motion.div
+      variants={{
+        open: { opacity: 1, x: 0 },
+        closed: { opacity: 0, x: -20 }
+      }}
     >
-      {children}
-    </Link>
+      <Link
+        href={href}
+        onClick={onClick}
+        className="block text-lg text-brand-text hover:text-white transition-colors duration-200 font-medium py-3 px-2 rounded-lg hover:bg-white/5"
+      >
+        {children}
+      </Link>
+    </motion.div>
   )
 })
